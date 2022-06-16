@@ -1,5 +1,5 @@
 
-## What is this? 
+## What is this about? 
 Do you know this? You do research for a seminar paper or some other work where you rely on scientific sources. You collect tons of pdf files from several webpages and journals and you are so happy that you found all of those interesting papers. Then, you want to find the paper with that fantastic interesting name within your 1000 pdf files. You are sure,  that you will finde the information you need in that specific paper. 
 But then, you break down and cry, after you opened up your downloads folder. All of the pdf files have one in common - they have all sorts of names, except their real one. How to figure out which of those was the one you were now looking for? 
 
