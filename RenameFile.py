@@ -1,14 +1,17 @@
 import os
 
 from PyPDF2 import PdfFileReader
-from Settings import FORBIDDEN_CHARS, SKIPABBLE_FILE_SUFFIX
+from Settings import FORBIDDEN_CHARS
 from pathlib import Path
 
+global counter 
+counter = 0
 
 def getPdfFileMetaData(filepath: str, oldFilename: str) -> tuple[str, str]:
         """Helper Function to extract meta data of PDF files.
         Returns the PDF Title and the PDF author in a tuple of (title, author)"""
-           
+        
+        global counter
 
         try:
             with open(f"{os.path.join(filepath, oldFilename)}", "rb") as file:
@@ -19,14 +22,15 @@ def getPdfFileMetaData(filepath: str, oldFilename: str) -> tuple[str, str]:
             return (pdf_author, pdf_title)
 
         except:
-            return ("No title found in metadata", "No author found in metadata")
+            counter += 1
+            return ("No author found in metadata", f"No title found in metadata {counter}")
 
 
 def skipFile(oldFilename: Path) -> bool:
     """Helper function to check whether a file should be skipped or if it should be renamed."""
 
     
-    if oldFilename.suffix != ".pdf" or oldFilename.suffix in SKIPABBLE_FILE_SUFFIX:
+    if oldFilename.suffix != ".pdf":
             
         print(f"Your file '{oldFilename}' is not a pdf. This file cant be renamed with this method. However, all pdf files in this folder will be renamed.")
         return True
@@ -46,19 +50,24 @@ def replaceForbiddenCharacters(author: str, title: str) -> tuple[str, str]:
     return author, title
 
 
-def renamePdfFile(filepath: str, oldFilename: Path) -> None:
+def renamePdfFile(filepath: str, oldFileName: Path, counter: int) -> bool:
     """Function to rename PDF files according to their stored Meta data, namely Title and Author.
-    Filepath is the path, where the files to be renamed are stored."""
+    Filepath is the path, where the files to be renamed are stored. Returns True if file is renamed unique, false if a file
+    is a copy of another file"""
     
-
-    if skipFile(oldFilename= oldFilename):
-        return
-
-    pdfAuthor, pdfTitle = getPdfFileMetaData(filepath= filepath, oldFilename= oldFilename)
+    
+    pdfAuthor, pdfTitle = getPdfFileMetaData(filepath= filepath, oldFilename= oldFileName)
     pdfAuthor, pdfTitle = replaceForbiddenCharacters(author= pdfAuthor, title = pdfTitle)
-
-    try:
-        os.rename(os.path.join(filepath, oldFilename), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle}.pdf" ))
     
-    except: 
-        os.rename(os.path.join(filepath, oldFilename), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle} - copy.pdf" ))
+    try:
+        os.rename(os.path.join(filepath, oldFileName), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle}.pdf" ))
+        
+    except:          
+        counter += 1
+        os.rename(os.path.join(filepath, oldFileName), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle} {counter}.pdf" ))
+
+
+def getCurrentFiles(filepath: str) -> list[str]:
+    """Returns a list containing the files stored in the filepath, where the files to be renamed are stored."""
+
+    return os.listdir(filepath)
