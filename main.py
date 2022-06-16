@@ -8,13 +8,13 @@ def main() -> None:
 
     files = getCurrentFiles(PDF_FILE_PATH)
 
-    for index, file in enumerate(files):
+    for file in files:
         fileToRename = Path(file)
         
-        if skipFile(fileToRename):
+        if skipFile(fileToRename, files):
             continue
-
-        renamePdfFile(filepath= PDF_FILE_PATH, oldFileName= fileToRename, counter= index)
+        
+        renamePdfFile(filepath= PDF_FILE_PATH, oldFileName= fileToRename)
            
 
 if __name__ == "__main__":
