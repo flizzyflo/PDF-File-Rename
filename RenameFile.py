@@ -4,6 +4,7 @@ from PyPDF2 import PdfFileReader
 from Settings import FORBIDDEN_CHARS, PDF_FILE_PATH, SKIPABBLE_FILE_SUFFIX
 from pathlib import Path
 
+
 def getPdfFileMetaData(filepath: str, oldFilename: str) -> tuple[str, str]:
         """Helper Function to extract meta data of PDF files.
         Returns the PDF Title and the PDF author in a tuple of (title, author)"""
@@ -33,7 +34,8 @@ def skipFile(oldFilename: Path) -> bool:
 
 
 def replaceForbiddenCharacters(author: str, title: str) -> tuple[str, str]:
-    """Helper Function to check whether forbidden characters are included in the pdf file name or pdf authors name"""
+    """Helper Function to check whether forbidden characters mentioned in constant file
+     are included in the pdf file name or pdf authors name"""
     
     for forbiddenChar in FORBIDDEN_CHARS:
         title = title.replace(forbiddenChar, " - ")
