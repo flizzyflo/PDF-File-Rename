@@ -2,7 +2,7 @@ import os
 
 from pathlib import Path
 from RenameFile import renamePdfFile
-from Settings import SKIPABBLE_FILE_SUFFIX, PDF_FILE_PATH
+from Settings import PDF_FILE_PATH
 
 def main() -> None:
 

@@ -1,7 +1,7 @@
 import os
 
 from PyPDF2 import PdfFileReader
-from Settings import FORBIDDEN_CHARS, PDF_FILE_PATH, SKIPABBLE_FILE_SUFFIX
+from Settings import FORBIDDEN_CHARS, SKIPABBLE_FILE_SUFFIX
 from pathlib import Path
 
 
@@ -9,6 +9,7 @@ def getPdfFileMetaData(filepath: str, oldFilename: str) -> tuple[str, str]:
         """Helper Function to extract meta data of PDF files.
         Returns the PDF Title and the PDF author in a tuple of (title, author)"""
            
+
         try:
             with open(f"{os.path.join(filepath, oldFilename)}", "rb") as file:
                 pdf_file_information = PdfFileReader(file).getDocumentInfo()
@@ -16,7 +17,7 @@ def getPdfFileMetaData(filepath: str, oldFilename: str) -> tuple[str, str]:
                 pdf_author = pdf_file_information["/Author"]
 
             return (pdf_author, pdf_title)
-        
+
         except:
             return ("No title found in metadata", "No author found in metadata")
 
@@ -37,6 +38,7 @@ def replaceForbiddenCharacters(author: str, title: str) -> tuple[str, str]:
     """Helper Function to check whether forbidden characters mentioned in constant file
      are included in the pdf file name or pdf authors name"""
     
+
     for forbiddenChar in FORBIDDEN_CHARS:
         title = title.replace(forbiddenChar, " - ")
         author = author.replace(forbiddenChar, " - ")
@@ -56,7 +58,7 @@ def renamePdfFile(filepath: str, oldFilename: Path) -> None:
     pdfAuthor, pdfTitle = replaceForbiddenCharacters(author= pdfAuthor, title = pdfTitle)
 
     try:
-        os.rename(os.path.join(PDF_FILE_PATH, oldFilename), os.path.join(PDF_FILE_PATH, f"{pdfAuthor} - {pdfTitle}.pdf" ))
+        os.rename(os.path.join(filepath, oldFilename), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle}.pdf" ))
     
     except: 
-        os.rename(os.path.join(PDF_FILE_PATH, oldFilename), os.path.join(PDF_FILE_PATH, f"{pdfAuthor} - {pdfTitle} - copy.pdf" ))
+        os.rename(os.path.join(filepath, oldFilename), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle} - copy.pdf" ))
