@@ -61,12 +61,17 @@ def renamePdfFile(filepath: str, oldFileName: Path) -> bool:
     createFileDict(pdfAuthor= pdfAuthor, pdfTitle= pdfTitle)
 
     if fileDict[f"{pdfAuthor} - {pdfTitle}"] == 1:
-        os.rename(os.path.join(filepath, oldFileName), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle}.pdf" ))
+        try:
+            os.rename(os.path.join(filepath, oldFileName), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle}.pdf" ))
+        except:
+            print(f"Filename {pdfAuthor} - {pdfTitle}.pdf already exists")
 
     else:
-        value = fileDict[f"{pdfAuthor} - {pdfTitle}"]
-        os.rename(os.path.join(filepath, oldFileName), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle} ({value}).pdf" ))
-
+        try:
+            value = fileDict[f"{pdfAuthor} - {pdfTitle}"]
+            os.rename(os.path.join(filepath, oldFileName), os.path.join(filepath, f"{pdfAuthor} - {pdfTitle} ({value}).pdf" ))
+        except:
+            print(f"Filename {pdfAuthor} - {pdfTitle} ({value}).pdf already exists")
 
 def getCurrentFiles(filepath: str) -> list[str]:
     """Returns a list containing the files stored in the filepath, where the files to be renamed are stored."""
