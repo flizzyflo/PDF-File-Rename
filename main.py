@@ -1,21 +1,12 @@
-from pathlib import Path
-from RenameFile import renamePdfFile, skipFile, getCurrentFiles
-from Settings import PDF_FILE_PATH
+
+from renaming_interface import RenamingInterface
 
 
+def run_program():
+    user_interface = RenamingInterface()
+    user_interface.mainloop()
 
-def main() -> None:
-
-    files = getCurrentFiles(PDF_FILE_PATH)
-
-    for file in files:
-        fileToRename = Path(file)
-        
-        if skipFile(fileToRename, files):
-            continue
-        
-        renamePdfFile(filepath= PDF_FILE_PATH, oldFileName= fileToRename)
-           
 
 if __name__ == "__main__":
-    main()
+    
+    run_program()
