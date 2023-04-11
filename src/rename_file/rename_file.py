@@ -6,7 +6,7 @@ from src.settings.settings import FORBIDDEN_CHARS
 
 
 class RenameFile:
-    fileDict: dict[str, int] = {}
+    file_counter: dict[str, int] = {}
 
     @staticmethod
     def __get_pdf_file_meta_data(filepath: str, old_filename: Path) -> tuple[str, str]:
@@ -87,7 +87,7 @@ class RenameFile:
     @staticmethod
     def __get_file_name_count(pdf_author: str, pdf_title: str) -> int:
 
-        return RenameFile.fileDict[f"{pdf_author} - {pdf_title}"]
+        return RenameFile.file_counter[f"{pdf_author} - {pdf_title}"]
 
     @staticmethod
     def __get_current_files(filepath: str) -> list[str]:
@@ -100,11 +100,11 @@ class RenameFile:
         """Creates a global dictionary which counts the amount of files.
         Is used to keep track of duplicate values to name them accordingly."""
 
-        if f"{pdf_author} - {pdf_title}" in RenameFile.fileDict.keys():
-            RenameFile.fileDict[f"{pdf_author} - {pdf_title}"] += 1
+        if f"{pdf_author} - {pdf_title}" in RenameFile.file_counter.keys():
+            RenameFile.file_counter[f"{pdf_author} - {pdf_title}"] += 1
 
         else:
-            RenameFile.fileDict[f"{pdf_author} - {pdf_title}"] = 1
+            RenameFile.file_counter[f"{pdf_author} - {pdf_title}"] = 1
 
     @staticmethod
     def rename_files(filepath: str) -> None:
@@ -125,5 +125,5 @@ class RenameFile:
 
     @staticmethod
     def __reset_file_counter() -> None:
-        for key in RenameFile.fileDict.keys():
-            RenameFile.fileDict[key] = 0
+        for key in RenameFile.file_counter.keys():
+            RenameFile.file_counter[key] = 0
