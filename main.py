@@ -1,9 +1,9 @@
 
-from renaming_interface import RenamingInterface
+from src.rename_user_interface.rename_user_interface import RenameUserInterface
 
 
 def run_program():
-    user_interface = RenamingInterface()
+    user_interface = RenameUserInterface()
     user_interface.mainloop()
 
 

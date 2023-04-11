@@ -2,10 +2,7 @@ import os
 
 from pathlib import Path
 from PyPDF2 import PdfFileReader
-from settings import FORBIDDEN_CHARS
-
-global counter
-counter: int = 0
+from src.settings.settings import FORBIDDEN_CHARS
 
 
 class RenameFile:
@@ -18,8 +15,6 @@ class RenameFile:
         Helper Function to extract meta-data of PDF files.
             Returns the PDF Title and the PDF author in a tuple of (title, author)
         """
-
-        global counter
 
         try:
             with open(f"{os.path.join(filepath, old_filename)}", "rb") as file:
